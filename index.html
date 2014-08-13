@@ -1,0 +1,52 @@
+<html>
+<head>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+<link href="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/css/bootstrap.min.css" rel="stylesheet" />
+<script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
+<link href="http://bootswatch.com/cerulean/bootstrap.min.css" rel="stylesheet" />
+<script src='http://cdn.ractivejs.org/latest/ractive.js'></script>
+<script src="/capsule.js"></script>
+<script src="/assets/main.js"></script>
+<link href="/assets/main.css" rel="stylesheet" />
+
+</head>
+<body>
+  <div class="navbar navbar-default navbar-fixed-top">
+      <div class="container">
+        <ul class="nav navbar-nav">
+          <li>
+            <a href="#/birthday">Birthday</a>
+          </li>
+          <li>
+            <a href="#/name">Name</a>
+          </li>
+          <li>
+            <a href="#/result/abcd">Hello!</a>
+          </li>
+          <li>
+            <a href="#/books">Books!</a>
+          </li>
+        </ul>
+      </div>
+  </div>
+  <div class="container">
+    <div class="main">
+    </div>
+  </div>
+  <template name="birthday">
+    {{#birthdays }}
+      <div class="birthday">{{birthday}}</div>
+    {{/each }}
+  </template>
+  <template name="books">
+    {{#books }}
+      <div class="book">{{text}}</div>
+    {{/books }}
+  </template>
+  <template name="name">
+    {{name.first}}
+    {{name.last}}<br />
+    {{name.fullName}}
+  </template>
+</body>
+</html>
