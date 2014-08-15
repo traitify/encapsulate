@@ -11,6 +11,9 @@ GEM
       descendants_tracker (~> 0.0.4)
       ice_nine (~> 0.11.0)
       thread_safe (~> 0.3, >= 0.3.1)
+    bson (1.10.2)
+    bson_ext (1.10.2)
+      bson (~> 1.10.2)
     builder (3.2.2)
     coercible (1.0.0)
       descendants_tracker (~> 0.0.1)
@@ -37,9 +40,16 @@ GEM
     i18n (0.6.11)
     ice_nine (0.11.0)
     json (1.8.1)
+    linguistics (2.0.3)
+      loggability (~> 0.7)
+    loggability (0.11.0)
     minitest (5.4.0)
+    mongo (1.10.2)
+      bson (= 1.10.2)
     multi_json (1.10.1)
     multi_xml (0.5.5)
+    puma (2.9.0)
+      rack (>= 1.1, < 2.0)
     rack (1.5.2)
     rack-accept (0.4.5)
       rack (>= 0.4)
@@ -85,6 +95,10 @@ PLATFORMS
   ruby
 
 DEPENDENCIES
+  bson_ext
   grape
+  linguistics
+  mongo
+  puma
   sinatra
   sinatra-asset-pipeline

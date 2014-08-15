@@ -5,7 +5,7 @@
 <script src="//maxcdn.bootstrapcdn.com/bootstrap/3.2.0/js/bootstrap.min.js"></script>
 <link href="http://bootswatch.com/cerulean/bootstrap.min.css" rel="stylesheet" />
 <script src='http://cdn.ractivejs.org/latest/ractive.js'></script>
-<script src="/capsule.js"></script>
+<script src="/encapsulate.js"></script>
 <script src="/assets/main.js"></script>
 <link href="/assets/main.css" rel="stylesheet" />
 
@@ -34,8 +34,8 @@
     </div>
   </div>
   <template name="birthday">
-    {{#birthdays }}
-      <div class="birthday">{{birthday}}</div>
+    {{#birthday }}
+      <div class="birthday">{{birthday.yay}}</div>
     {{/each }}
   </template>
   <template name="books">
