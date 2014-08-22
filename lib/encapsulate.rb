@@ -68,6 +68,11 @@ class Web < Sinatra::Base
     content_type :js
     Encapsulate.file('/encapsulate/js/finch.min.js') + Encapsulate.file('/encapsulate/js/main.js')
   end
+
+  get '/pages/:page' do
+    content_type :html
+    Encapsulate.file('/pages/' + params[:page])
+  end
 end
 
 

@@ -8,6 +8,7 @@ Gem::Specification.new do |s|
   s.email       = 'carsonnwright@gmail.com'
   s.files       = Dir["lib/**/*"] + Dir["encapsulate/**/*"] + ["Rakefile", "index.html", "README.md"]
   s.require_paths = ["lib"]
+  s.executables << 'encapsulate'
   s.homepage    = 'localhost:3000'
   s.add_dependency "grape", ["= 0.8.0"]
   s.add_dependency "sinatra", ["= 1.4.5"]
@@ -15,7 +16,7 @@ Gem::Specification.new do |s|
   s.add_dependency "puma", ["= 2.9.0"]
   s.add_dependency 'mongo', ['= 1.10.2']
   s.add_dependency 'bson_ext', ['= 1.10.2']
-  s.add_dependency 'linguistics'
+  s.add_dependency 'linguistics', ['= 2.0.3']
 
   s.license     = 'MIT'
 end
