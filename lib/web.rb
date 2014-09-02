@@ -5,16 +5,16 @@ class Web < Sinatra::Base
 
   use OmniAuth::Builder do
     github = Spi.omni_auth_config("github")
-    github_id = ENV["github_id"] || github["id"]
-    github_secret = ENV["github_secret"] || github["secret"]
+    github_id = ENV["GITHUB_ID"] || github["id"]
+    github_secret = ENV["GITHUB_SECRET"] || github["secret"]
     
     facebook = Spi.omni_auth_config("facebook")
-    facebook_id = ENV["facebook_id"] || facebook["id"]
-    facebook_secret = ENV["facebook_secret"] || facebook["secret"]
+    facebook_id = ENV["FACEBOOK_ID"] || facebook["id"]
+    facebook_secret = ENV["FACEBOOK_SECRET"] || facebook["secret"]
     
     twitter = Spi.omni_auth_config("twitter")
-    twitter_id = ENV["twitter_id"] || twitter["id"]
-    twitter_secret = ENV["twitter_secret"] || twitter["secret"]
+    twitter_id = ENV["TWITTER_ID"] || twitter["id"]
+    twitter_secret = ENV["TWITTER_SECRET"] || twitter["secret"]
     
     provider :facebook, facebook_id, facebook_secret
     provider :github, github_id, github_secret
@@ -28,6 +28,10 @@ class Web < Sinatra::Base
 
   get '/' do
     send_file File.join(settings.public_folder, 'index.html')
+  end
+  
+  get '/pages/:page' do
+    send_file File.join(settings.public_folder, "pages/#{params[:page]}.html")
   end
  
   get '/auth/:provider/callback' do

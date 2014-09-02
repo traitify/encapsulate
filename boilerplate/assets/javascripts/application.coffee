@@ -7,7 +7,11 @@ $.capsuleForm(".books")
 $.capsuleForm(".authors")
 
 $(->
-  View.cog(".main", $("[name='authentication']").html(), Object())
+  $.get("/pages/authentication", (data)->
+    $("body").append(data)
+
+    View.cog(".main", $("[name='authentication']").html(), Object())
+  )
 )
 
 App.initialize()

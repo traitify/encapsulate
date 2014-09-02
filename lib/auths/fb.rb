@@ -3,6 +3,8 @@ class FBAuth
     user_raw = user_params["extra"]["raw_info"]
     user = Spi.db["users"].find(email: user_raw["email"]).first
     
+    p Dir.pwd
+    
     user_info = Hash.new
     
     if user_raw["email"]

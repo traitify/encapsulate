@@ -3,9 +3,13 @@ Router.addRoute = function(name, callBack){
   return Finch.route(name, callBack);
 }
 Router.collection = function(target, collection){
-  this.addRoute("/"+collection, function() {
-    View.render(target, collection, "collections/"+collection);
-  });
+  console.log(collection);
+  $.get("/pages/" + collection, function(data){
+    $("body").append(data);
+    Router.addRoute("/"+collection, function() {
+      View.render(target, collection, "collections/"+collection);
+    });
+  })
 }
 
 var View  = Object();

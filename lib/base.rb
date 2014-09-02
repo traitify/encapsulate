@@ -21,18 +21,18 @@ class Spi
     Rack::Cascade.new [Web, Collections]
   end
   
-  def self.set_home_folder(home)
-    @@home_folder = home
-  end
-  
   def self.home_folder
-    @@home_folder
+    Dir.pwd
   end
   
-  def self.set_db(options)
+  def self.set_db()
     client = MongoClient.new
-    db_name = "example project" || options[:name]
-    @@db = client['example-db'] 
+    database = Hash.new
+    if File.exist?(home_folder + "/config/database.yml")
+      database = YAML.load_file(home_folder + "/config/database.yml")
+    end
+    db_name = ENV["DB_NAME"] || database["name"]
+    @@db = client[db_name]
   end
   
   def self.db
@@ -45,5 +45,10 @@ class Spi
     else
       {id: nil, secret: nil}
     end
+  end
+  
+  def self.start
+    Dir["/api/*.rb"].each {|file| require file }
+    self.set_db
   end
 end

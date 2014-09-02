@@ -1,9 +1,0 @@
-#!/usr/bin/env ruby
-#
-# Copyright (c) 2014 Carson Wright
-#
-
-if ARGV[0] == "new"
-	p "Creating your app!"
-	Dir.mkdir(ARGV[1])
-end

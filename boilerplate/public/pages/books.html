@@ -1,0 +1,11 @@
+<template name="books">
+  <div class="books">
+    {{#books }}
+      <div class="book">{{title}}</div>
+    {{/books }}
+    <div class="form" data-name="book" >
+      <input type="text" data-name="title" placeholder="Title"  />
+      <div class="submit btn btn-primary">Submit</div>
+    </div>
+  </div>
+</template>

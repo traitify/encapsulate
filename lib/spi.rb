@@ -54,3 +54,5 @@ require_relative 'web'
 Dir[File.dirname(Spi.home_folder) + '/api/*.rb'].each do |file| 
   require file.gsub(".rb", "")
 end
+
+Spi.start

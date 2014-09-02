@@ -1,0 +1,11 @@
+<template name="authors">
+  <div class="authors">
+    {{#authors }}
+      <div class="author">{{name}}</div>
+    {{/authors }}
+    <div class="form" data-name="author" >
+      <input type="text" data-name="name" placeholder="Name" />
+      <div class="submit btn btn-primary">Submit</div>
+    </div>
+  </div>
+</template>
