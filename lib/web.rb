@@ -42,14 +42,20 @@ class Web < Sinatra::Base
     when "twitter"
       user = TwitterAuth.store(request.env['omniauth.auth'])
     end
-    
-    session[:user_id] = user["_id"]
+    if user
+      session[:user_id] = user["_id"]
+    end
     redirect "/"
   end
   
   get '/me' do
-    Spi.db["users"].find(_id: session[:user_id]).to_a.first.to_json
+    content_type :json
+
+    current_user.to_json
   end
   
+  def current_user
+    Spi.db["users"].find(_id: session[:user_id]).to_a.first
+  end
   set :public_folder, 'public'
 end

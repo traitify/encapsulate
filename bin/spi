@@ -3,6 +3,7 @@
 # Copyright (c) 2014 Carson Wright
 #
 require 'fileutils'
+require 'active_support/inflector'
 spec = Gem::Specification.find_by_name("encapsulate")
 gem_root = spec.gem_dir
 gem_lib = gem_root + "/lib"
@@ -12,8 +13,55 @@ case ARGV[0]
 when "new"
   puts "Creating your app!"
 	local_path = File.expand_path("..", File.dirname(__FILE__))
-	 
-	FileUtils.cp_r local_path + "/boilerplate",  ARGV[1] 
+
+  type =  ARGV[1] == "plugin" ? "plugin" : "project"
+	FileUtils.cp_r local_path + "/boilerplate/#{type}",  ARGV[2] 
+  
+  Dir.glob("#{ARGV[2]}/**/*your_spi_plugin*").each do |file_name|
+    new_file_name = file_name.gsub(/your_spi_plugin/, ARGV[2].underscore)
+    File.rename(file_name, new_file_name)
+  end
+  
+  Dir.glob("#{ARGV[2]}/*your_spi_plugin*").each do |file_name|
+    new_file_name = file_name.gsub(/your_spi_plugin/, ARGV[2].underscore)
+    File.rename(file_name, new_file_name)
+  end
+
+  Dir.glob("#{ARGV[2]}/lib/#{ARGV[2].underscore}/*.rb").each do |file_name|
+    text = File.read(file_name)
+    text = text.gsub(/YourSpiPlugin/, ARGV[2].camelcase)
+    text = text.gsub(/your_spi_plugin/, ARGV[2].underscore)
+    
+    f = File.new(file_name, "w")
+    f.write(text)
+    f.close     
+    
+    File.write(file_name, text)
+  end
+
+  Dir.glob("#{ARGV[2]}/lib/*.rb").each do |file_name|
+    text = File.read(file_name)
+    text = text.gsub(/YourSpiPlugin/, ARGV[2].camelcase)
+    text = text.gsub(/your_spi_plugin/, ARGV[2].underscore)
+    
+    f = File.new(file_name, "w")
+    f.write(text)
+    f.close     
+    
+    File.write(file_name, text)
+  end
+  
+  Dir.glob("#{ARGV[2]}/*.*").each do |file_name|
+    text = File.read(file_name)
+    text = text.gsub(/YourSpiPlugin/, ARGV[2].camelcase)
+    text = text.gsub(/your_spi_plugin/, ARGV[2].underscore)
+    
+    f = File.new(file_name, "w")
+    f.write(text)
+    f.close     
+    
+    File.write(file_name, text)
+  end
 when "server"
   exec("puma")
 else

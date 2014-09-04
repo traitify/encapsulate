@@ -39,12 +39,20 @@ class Spi
     @@db
   end
   
-  def self.omni_auth_config(type)
-    if File.exist?(home_folder + "/config/" + type + ".yml")
-      YAML.load_file(home_folder + "/config/" + type + ".yml")
+  def self.load_configuration(file)
+    if File.exist?(home_folder + "/config/" + file + ".yml")
+      YAML.load_file(home_folder + "/config/" + file + ".yml")
     else
-      {id: nil, secret: nil}
+      Hash.new
     end
+  end
+  
+  def self.omni_auth_config(type)
+    configuration = self.load_configuration(type)
+    configuration[:id] ||= nil
+    configuration[:secret] ||= nil
+      
+    configuration
   end
   
   def self.start
