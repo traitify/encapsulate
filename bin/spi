@@ -15,52 +15,56 @@ when "new"
 	local_path = File.expand_path("..", File.dirname(__FILE__))
 
   type =  ARGV[1] == "plugin" ? "plugin" : "project"
-	FileUtils.cp_r local_path + "/boilerplate/#{type}",  ARGV[2] 
+  name = type == "project" ? ARGV[1] : ARGV[2]
+  FileUtils.cp_r local_path + "/boilerplate/#{type}", name
   
-  Dir.glob("#{ARGV[2]}/**/*your_spi_plugin*").each do |file_name|
-    new_file_name = file_name.gsub(/your_spi_plugin/, ARGV[2].underscore)
-    File.rename(file_name, new_file_name)
-  end
-  
-  Dir.glob("#{ARGV[2]}/*your_spi_plugin*").each do |file_name|
-    new_file_name = file_name.gsub(/your_spi_plugin/, ARGV[2].underscore)
-    File.rename(file_name, new_file_name)
-  end
+  p type
+  if type == "plugin"
+    Dir.glob("#{ARGV[2]}/**/*your_spi_plugin*").each do |file_name|
+      new_file_name = file_name.gsub(/your_spi_plugin/, ARGV[2].underscore)
+      File.rename(file_name, new_file_name)
+    end
 
-  Dir.glob("#{ARGV[2]}/lib/#{ARGV[2].underscore}/*.rb").each do |file_name|
-    text = File.read(file_name)
-    text = text.gsub(/YourSpiPlugin/, ARGV[2].camelcase)
-    text = text.gsub(/your_spi_plugin/, ARGV[2].underscore)
-    
-    f = File.new(file_name, "w")
-    f.write(text)
-    f.close     
-    
-    File.write(file_name, text)
-  end
+    Dir.glob("#{ARGV[2]}/*your_spi_plugin*").each do |file_name|
+      new_file_name = file_name.gsub(/your_spi_plugin/, ARGV[2].underscore)
+      File.rename(file_name, new_file_name)
+    end
 
-  Dir.glob("#{ARGV[2]}/lib/*.rb").each do |file_name|
-    text = File.read(file_name)
-    text = text.gsub(/YourSpiPlugin/, ARGV[2].camelcase)
-    text = text.gsub(/your_spi_plugin/, ARGV[2].underscore)
-    
-    f = File.new(file_name, "w")
-    f.write(text)
-    f.close     
-    
-    File.write(file_name, text)
-  end
-  
-  Dir.glob("#{ARGV[2]}/*.*").each do |file_name|
-    text = File.read(file_name)
-    text = text.gsub(/YourSpiPlugin/, ARGV[2].camelcase)
-    text = text.gsub(/your_spi_plugin/, ARGV[2].underscore)
-    
-    f = File.new(file_name, "w")
-    f.write(text)
-    f.close     
-    
-    File.write(file_name, text)
+    Dir.glob("#{ARGV[2]}/lib/#{ARGV[2].underscore}/*.rb").each do |file_name|
+      text = File.read(file_name)
+      text = text.gsub(/YourSpiPlugin/, ARGV[2].camelcase)
+      text = text.gsub(/your_spi_plugin/, ARGV[2].underscore)
+
+      f = File.new(file_name, "w")
+      f.write(text)
+      f.close     
+
+      File.write(file_name, text)
+    end
+
+    Dir.glob("#{ARGV[2]}/lib/*.rb").each do |file_name|
+      text = File.read(file_name)
+      text = text.gsub(/YourSpiPlugin/, ARGV[2].camelcase)
+      text = text.gsub(/your_spi_plugin/, ARGV[2].underscore)
+
+      f = File.new(file_name, "w")
+      f.write(text)
+      f.close     
+
+      File.write(file_name, text)
+    end
+
+    Dir.glob("#{ARGV[2]}/*.*").each do |file_name|
+      text = File.read(file_name)
+      text = text.gsub(/YourSpiPlugin/, ARGV[2].camelcase)
+      text = text.gsub(/your_spi_plugin/, ARGV[2].underscore)
+
+      f = File.new(file_name, "w")
+      f.write(text)
+      f.close     
+
+      File.write(file_name, text)
+    end
   end
 when "server"
   exec("puma")
