@@ -1,6 +1,7 @@
 class Web < Sinatra::Base
   use Rack::Session::Pool
-  set :session_secret, 'your secret'
+  use Faye::RackAdapter, :mount => '/faye', :timeout => 25
+  set :session_secret, ENV['SESSION_SECRET'] || Spi.load_collection('app')["session_secret"]
   register Sinatra::AssetPipeline
 
   use OmniAuth::Builder do
@@ -23,7 +24,15 @@ class Web < Sinatra::Base
   
   get '/spi.js' do
     content_type :js
-    Spi.file('/spi/js/finch.min.js') + Spi.file('/spi/js/main.js')
+    if current_user
+      user = current_user
+      user["_id"] = user["_id"].to_s
+      current_user_json = user.to_json
+    else
+      current_user_json = {}.to_json
+    end
+    
+    Spi.file('/spi/js/finch.min.js') + Spi.file('/spi/js/main.js') + ["\n"] + ["currentUser = #{current_user_json};"]
   end
 
   get '/' do
@@ -53,9 +62,17 @@ class Web < Sinatra::Base
 
     current_user.to_json
   end
+
+  get '/friends' do
+    content_type :json
+
+    current_user.friends.to_json
+  end
   
+
   def current_user
-    Spi.db["users"].find(_id: session[:user_id]).to_a.first
+    user = Spi.db["users"].find(_id: session[:user_id]).to_a.first
+    user["friends"] = Array.new
   end
   set :public_folder, 'public'
 end

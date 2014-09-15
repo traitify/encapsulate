@@ -3,7 +3,6 @@ Router.addRoute = function(name, callBack){
   return Finch.route(name, callBack);
 }
 Router.collection = function(target, collection){
-  console.log(collection);
   $.get("/pages/" + collection, function(data){
     $("body").append(data);
     Router.addRoute("/"+collection, function() {
@@ -22,9 +21,11 @@ View.cog = function(element, template, data){
 }
 
 View.render = function(target, templateName, url){
-  $.get("/api/"+url).done(function(data){
+  collection = new Collection(target)
+  collection.find().then(function(data){
     dataEncapsulate = Object();
     dataEncapsulate[templateName] = data
+    collection.data = dataEncapsulate[templateName]
     View.cog(target, $("[name='"+templateName+"']").html(), dataEncapsulate);
   });
 }
@@ -54,12 +55,58 @@ App.initialize = function(){
   Finch.listen();
 }
 
-currentUser = Object();
-$.get("/me", function(data){
-  App.currentUser = data;
-  currentUser = data;
-}, "json")
+App.fayeClient = new Faye.Client("/faye");
 
-currentUser = function(callback){ 
-  return App.currentUser;
+currentUser = Object();
+
+Collection = function(name){
+  this.name = name;
+	this.pushes = Object();
+  
+  localCollection = this;
+  
+  App.fayeClient.subscribe('/'+this.name, function(data) {
+    localCollection.data[collection.name].push(JSON.parse(data.json));
+  });
+  
+  this.create = function(params){
+    return $.post("/api/collections/"+name, params);
+  }
+  
+  this.find = function(params){
+    return $.get("/api/collections/"+name, params);
+  }
+
+  this.update = function(id, params){
+    name = this.name
+    request = $.ajax({
+      url: "/api/collections/"+name+"/"+id,
+      type: "PUT",
+      data: params,
+      dataType: "json"
+    });
+    
+    return request;
+  }
+  
+  this.remove = function(id){
+    request = $.ajax({
+      url: "/api/collections/"+name+"/"+id,
+      type: "DELETE",
+      dataType: "json"
+    });
+    
+    return request;
+  }
+  
+  this.findOne = function(params){
+    var defer = $.Deferred()
+    
+    $.get("/api/collections/"+name, params).then(function(data){
+      data = data[0];
+      defer.resolve(data);
+    });
+    
+    defer
+  }
 }

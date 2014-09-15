@@ -2,6 +2,11 @@ require 'bundler'
 Bundler.require
 
 #######################
+# FAYE SERVER
+#######################
+require 'faye'
+
+#######################
 # REQUIRE SINATRA
 #######################
 require 'sinatra'
@@ -47,6 +52,8 @@ require_relative 'auths/twitter'
 # REQUIRE MAIN LIB
 ###############################
 require_relative 'web'
+
+require_relative 'collections_handler'
 
 ###############################
 # REQUIRE API FILES

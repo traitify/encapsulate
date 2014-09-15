@@ -25,18 +25,28 @@ class Spi
     Dir.pwd
   end
   
-  def self.set_db()
+  def self.faye_client
+    @@faye_client ||= Faye::Client.new('http://localhost:9292/faye')
+  end
+  
+  def self.set_db
     client = MongoClient.new
-    database = Hash.new
-    if File.exist?(home_folder + "/config/database.yml")
-      database = YAML.load_file(home_folder + "/config/database.yml")
-    end
-    db_name = ENV["DB_NAME"] || database["name"]
+
+    db_name = ENV["DB_NAME"] || Spi.load_configuration("database")["name"]
+
     @@db = client[db_name]
   end
   
   def self.db
     @@db
+  end
+
+  def self.load_collection(file)
+    if File.exist?(home_folder + "/collections/" + file + ".yml")
+      YAML.load_file(home_folder + "/collections/" + file + ".yml")
+    else
+      Hash.new
+    end
   end
   
   def self.load_configuration(file)

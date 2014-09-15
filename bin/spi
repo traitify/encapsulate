@@ -18,7 +18,6 @@ when "new"
   name = type == "project" ? ARGV[1] : ARGV[2]
   FileUtils.cp_r local_path + "/boilerplate/#{type}", name
   
-  p type
   if type == "plugin"
     Dir.glob("#{ARGV[2]}/**/*your_spi_plugin*").each do |file_name|
       new_file_name = file_name.gsub(/your_spi_plugin/, ARGV[2].underscore)
@@ -61,7 +60,7 @@ when "new"
 
       f = File.new(file_name, "w")
       f.write(text)
-      f.close     
+      f.close
 
       File.write(file_name, text)
     end

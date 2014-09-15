@@ -15,9 +15,10 @@ Gem::Specification.new do |s|
   s.add_dependency "puma", ["= 2.9.0"]
   s.add_dependency 'bson_ext', ['= 1.10.2']
   s.add_dependency 'mongo', ['= 1.10.2']
-  s.add_dependency 'i18n', ["= 0.6.11"]
+  s.add_dependency 'i18n', ['= 0.6.11']
   s.add_dependency 'json', ['= 1.8.1']
   s.add_dependency 'activesupport-inflector', ['= 0.1.0']
+  s.add_dependency 'faye', ['= 1.0.3']
   
   s.add_dependency 'omniauth', ['= 1.2.2']
   s.add_dependency 'omniauth-oauth2', ['= 1.2.0']
